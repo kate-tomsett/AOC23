@@ -16,24 +16,41 @@ int main(int, char **)
 
     string line;
     int part1 = 0;
+    int part2 = 0;
 
+    vector<string> words{ "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
     while (getline(inputFile, line))
     {
-        vector<string> digits;
-        if (line.size() > 0)
+        vector<string> digits1;
+        vector<string> digits2;
+        for (size_t i = 0; i < line.size(); i++)
         {
-            for (auto &&character : line)
+            if (isdigit(line[i]))
             {
-                if (isdigit(character))
+                string digit;
+                digit = line[i];
+                digits1.push_back(digit);
+                digits2.push_back(digit);
+            }
+            for (size_t wordIndex = 1; wordIndex < words.size(); wordIndex++)
+            {
+                if (line.find(words.at(wordIndex), i) == i)
                 {
-                    string digit;
-                    digit = character;
-                    digits.push_back(digit);
+                    digits2.push_back(to_string(wordIndex));
                 }
             }
         }
-        part1 += stoi(digits.front() + digits.back());
+
+        if (digits1.size() > 0)
+        {
+            part1 += stoi(digits1.front() + digits1.back());
+        }
+        if (digits2.size() > 0)
+        {
+            part2 += stoi(digits2.front() + digits2.back());
+        }
     }
 
     cout << "Solution for part 1: " << part1 << endl;
+    cout << "Solution for part 2: " << part2 << endl;
 }
